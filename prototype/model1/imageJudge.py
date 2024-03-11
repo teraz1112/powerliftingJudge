@@ -11,7 +11,7 @@ def estimate_pose(image_path):
     original_height, original_width = image.shape[:2]
 
     # 新しい高さを指定
-    new_height = 700
+    new_height = 900
 
     # アスペクト比を保持するための新しい幅を計算
     new_width = int(new_height * original_width / original_height)
