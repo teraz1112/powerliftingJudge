@@ -25,6 +25,28 @@ def estimate_pose(video_path):
 
             # 1フレームごとにPose推定を実行
             results = pose.process(image)
+            # 腰の二点の座標を取得
+            try:
+                left_hip = results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_HIP]
+                right_hip = results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_HIP]
+            except:
+                pass
+
+            # left_hipのy座標が最小値を取得
+            try:
+                if left_hip.y > l_min_y:
+                    l_min_y = left_hip.y
+                    l_min_img = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            except:
+                l_min_y = 0
+            
+            # right_hipのy座標が最小値を取得
+            try:
+                if right_hip.y > r_min_y:
+                    r_min_y = right_hip.y
+                    r_min_img = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            except:
+                r_min_y = 0
 
             # 検出されたポーズの骨格をカメラ画像に重ねて描画
             image.flags.writeable = True
@@ -39,7 +61,6 @@ def estimate_pose(video_path):
                 break
     cap.release()
     cv2.destroyAllWindows()
+    cv2.imwrite("l_min_img.jpg", l_min_img)
+    cv2.imwrite("r_min_img.jpg", r_min_img)
 
-# 動画のパスを指定してPose推定を実行
-video_path = "./movie//matusitaSquat.mov"
-estimate_pose(video_path)

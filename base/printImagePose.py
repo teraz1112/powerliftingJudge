@@ -24,5 +24,5 @@ def estimate_pose(image_path):
     cv2.destroyAllWindows()
 
 # 画像のパスを指定してポーズ推定を行う
-image_path = "./img/IMG_1887.jpg"
+image_path = "../src/img/IMG_1887.jpg"
 estimate_pose(image_path)
